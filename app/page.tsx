@@ -161,8 +161,9 @@ export default function Home() {
           <section style={{ marginTop: 24 }}>
             <h2 style={h2Style}>Mermaid ER 図</h2>
             <p style={{ color: "#94a3b8", marginTop: 0 }}>
-              下のテキストを GitHub / mermaid.live / ドキュメントに貼ると ER
-              図に なります（描画ライブラリを同梱しない $0 構成）。
+              下の Mermaid テキストを
+              GitHub・mermaid.live・各種ドキュメントに貼ると ER
+              図として表示されます。
             </p>
             <button type="button" onClick={copyMermaid} style={btnStyle}>
               {copied ? "コピーしました" : "Mermaid をコピー"}
