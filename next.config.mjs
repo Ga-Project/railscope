@@ -1,3 +1,9 @@
+// プロジェクトページ（<user>.github.io/<repo>/）でのサブパス配信に対応する。
+// ルート配信（ユーザー/組織ページ・独自ドメイン）では未設定でよいため、
+// basePath は環境変数 BASE_PATH で注入する（未設定なら空＝ルート配信）。
+// 例: BASE_PATH=/railscope pnpm build
+const basePath = process.env.BASE_PATH ?? "";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -7,6 +13,8 @@ const nextConfig = {
   images: { unoptimized: true },
   // 各ルートを /path/index.html として出力し、サブディレクトリ配信で 404 を避ける。
   trailingSlash: true,
+  // サブパス配信時のみ basePath/assetPrefix を有効化（_next/static の 404 を防ぐ）。
+  ...(basePath ? { basePath, assetPrefix: `${basePath}/` } : {}),
 };
 
 export default nextConfig;
