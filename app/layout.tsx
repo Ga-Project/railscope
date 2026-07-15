@@ -2,10 +2,12 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Script from "next/script";
 
-// サブパス配信（<org>.github.io/railscope/）に合わせた URL 導出。
-// BASE_PATH は next.config.mjs と同じ環境変数（Pages ビルドで /railscope）。
+// 公開URL・サブパスは配信先ごとに環境変数で注入する（deploy.md 参照）。
+// BASE_PATH: next.config.mjs と同じ（Pages ビルドで /railscope／ルート配信は空）。
+// SITE_URL:  canonical/OGP/JSON-LD の絶対URLの基点。Pages を既定にしつつ、
+//            Cloudflare Pages や独自ドメインのルート配信では実ホストを渡して上書きする。
 const basePath = process.env.BASE_PATH ?? "";
-const SITE_URL = "https://ga-project.github.io/railscope/";
+const SITE_URL = process.env.SITE_URL ?? "https://ga-project.github.io/railscope/";
 const OG_IMAGE = `${SITE_URL}og.png`;
 const TITLE = "RailScope — Rails スキーマ ER 図 & Lint";
 const DESCRIPTION =
@@ -105,7 +107,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         */}
         <Script
           data-goatcounter="https://railscope.goatcounter.com/count"
-          src="//gc.zgo.at/count.js"
+          src="https://gc.zgo.at/count.js"
           strategy="afterInteractive"
         />
       </body>
