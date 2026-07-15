@@ -106,7 +106,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           サイト未作成でも本タグは無害（count エンドポイントに届かないだけ）。
         */}
         <Script
-          data-goatcounter="https://railscope.goatcounter.com/count"
+          data-goatcounter="https://ga-project.goatcounter.com/count"
           src="https://gc.zgo.at/count.js"
           strategy="afterInteractive"
         />
