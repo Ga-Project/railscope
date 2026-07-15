@@ -208,7 +208,11 @@ export default function Home() {
         <p style={{ margin: "0 0 8px" }}>
           <strong style={{ color: "#94a3b8" }}>プライバシー</strong> — 入力した
           schema.rb はサーバーに送信されず、保存もされません（すべてブラウザ
-          内で処理）。Cookie は使用せず、アカウント登録もありません。
+          内で処理）。Cookie
+          は使用せず、アカウント登録もありません。アクセス解析には cookieless の
+          GoatCounter を用い、ページ閲覧情報（URL・リファラ・ブラウザ 種別等）を
+          goatcounter.com へ送信しますが、入力した schema.rb
+          の内容や個人を特定する情報は送信しません。
         </p>
         <p style={{ margin: 0 }}>
           <strong style={{ color: "#94a3b8" }}>商標</strong> — &quot;Rails&quot;

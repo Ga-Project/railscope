@@ -19,12 +19,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         }}
       >
         {/*
-          アナリティクス（任意・cookieless・秘密キー不要。必要なら1つ有効化）:
-          (1) GoatCounter（GitHub Pages/汎用ホスティングで無料）
-          <script data-goatcounter="https://__GC_CODE__.goatcounter.com/count" async src="//gc.zgo.at/count.js" />
-          (2) Cloudflare Web Analytics（Cloudflare でホスティングする場合の選択肢）
-          <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"__CF_BEACON_TOKEN__"}' />
+          アクセス解析: GoatCounter（cookieless・公開タグのため秘密キーではない）。
+          プライバシー開示はフッター（app/page.tsx）と対で維持すること。
         */}
+        <script
+          data-goatcounter="https://railscope.goatcounter.com/count"
+          async
+          src="//gc.zgo.at/count.js"
+        />
         {children}
       </body>
     </html>
