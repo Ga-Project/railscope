@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="RailScope">
+  <rect width="64" height="64" rx="14" fill="#0f172a"/>
+  <!-- 2本のレール（Rails 連想）＋ノード（スキーマ/ER 連想） -->
+  <g stroke="#38bdf8" stroke-width="4" stroke-linecap="round" fill="none">
+    <path d="M18 12 L18 52"/>
+    <path d="M32 12 L32 52"/>
+  </g>
+  <g stroke="#64748b" stroke-width="3" stroke-linecap="round">
+    <path d="M14 22 L36 22"/>
+    <path d="M14 32 L36 32"/>
+    <path d="M14 42 L36 42"/>
+  </g>
+  <!-- lint マーカー -->
+  <circle cx="48" cy="22" r="4" fill="#fbbf24"/>
+  <circle cx="48" cy="32" r="4" fill="#f87171"/>
+  <circle cx="48" cy="42" r="4" fill="#34d399"/>
+</svg>
