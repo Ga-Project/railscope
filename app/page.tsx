@@ -210,7 +210,7 @@ export default function Home() {
           schema.rb はサーバーに送信されず、保存もされません（すべてブラウザ
           内で処理）。Cookie
           は使用せず、アカウント登録もありません。アクセス解析には cookieless の
-          GoatCounter を用い、ページ閲覧情報（URL・リファラ・ブラウザ 種別等）を
+          GoatCounter を用い、ページ閲覧情報（URL・リファラ・ブラウザ種別等）を
           goatcounter.com へ送信しますが、入力した schema.rb
           の内容や個人を特定する情報は送信しません。
         </p>
