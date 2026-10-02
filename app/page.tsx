@@ -1,11 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import type { Finding, Schema, Severity, TableDef } from "@/lib/types";
 import { parseSchemaRb } from "@/lib/parse-schema-rb.mjs";
 import { lintSchema, summarize } from "@/lib/lint.mjs";
 import { toMermaid } from "@/lib/mermaid.mjs";
 import { SAMPLE_SCHEMA_RB } from "@/lib/sample.mjs";
+import { ruleAnchor } from "@/lib/rule-guide.mjs";
 
 const SEVERITY_COLOR: Record<Severity, string> = {
   error: "#f87171",
@@ -74,6 +76,14 @@ export default function Home() {
         </p>
         <p style={{ color: "#34d399", fontSize: "0.85rem", marginTop: 4 }}>
           🔒 入力はサーバーに送信されません。すべてブラウザ内で処理します。
+        </p>
+        <p style={{ fontSize: "0.85rem", marginTop: 4 }}>
+          <Link
+            href="/rules/"
+            style={{ color: "#93c5fd", textUnderlineOffset: 3 }}
+          >
+            どんな問題を点検するか（lint ルールの解説）
+          </Link>
         </p>
       </header>
 
@@ -274,8 +284,14 @@ function FindingRow({ finding }: { finding: Finding }) {
           <span style={{ color: "#64748b" }}> （行 {finding.line}）</span>
         )}
         <div style={{ color: "#cbd5e1", marginTop: 2 }}>{finding.message}</div>
-        <div style={{ color: "#475569", fontSize: "0.72rem", marginTop: 2 }}>
-          {finding.rule}
+        <div style={{ fontSize: "0.75rem", marginTop: 4 }}>
+          <Link
+            href={`/rules/#${ruleAnchor(finding.rule)}`}
+            style={{ color: "#93c5fd", textUnderlineOffset: 3 }}
+          >
+            なぜ問題か・直し方
+          </Link>
+          <span style={{ color: "#94a3b8" }}> — {finding.rule}</span>
         </div>
       </span>
     </li>

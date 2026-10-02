@@ -1,14 +1,13 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Script from "next/script";
+import { SITE_URL, absoluteUrl } from "@/lib/site.mjs";
 
 // 公開URL・サブパスは配信先ごとに環境変数で注入する（deploy.md 参照）。
 // BASE_PATH: next.config.mjs と同じ（Pages ビルドで /railscope／ルート配信は空）。
-// SITE_URL:  canonical/OGP/JSON-LD の絶対URLの基点。Pages を既定にしつつ、
-//            Cloudflare Pages や独自ドメインのルート配信では実ホストを渡して上書きする。
+// SITE_URL:  canonical/OGP/JSON-LD の絶対URLの基点。lib/site.mjs で末尾スラッシュを正規化する。
 const basePath = process.env.BASE_PATH ?? "";
-const SITE_URL = process.env.SITE_URL ?? "https://ga-project.github.io/railscope/";
-const OG_IMAGE = `${SITE_URL}og.png`;
+const OG_IMAGE = absoluteUrl("og.png");
 const TITLE = "RailScope — Rails スキーマ ER 図 & Lint";
 const DESCRIPTION =
   "schema.rb を貼るだけで ER 図を描画し、FK 未索引・NOT NULL 欠落・polymorphic 複合索引漏れなどを lint 警告する、サーバー送信なしの開発者向けツール。";
