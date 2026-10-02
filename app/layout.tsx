@@ -100,9 +100,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
         {children}
         {/*
-          アクセス計測（GoatCounter・cookieless・秘密キー不要・サーバー送信なし）。
-          集計サイト railscope.goatcounter.com は代表アカウントで作成する（人ゲート）。
-          サイト未作成でも本タグは無害（count エンドポイントに届かないだけ）。
+          アクセス計測（GoatCounter・cookieless・秘密キー不要）。
+          入力した schema.rb は送らず、ページ閲覧情報のみを集計する。
         */}
         <Script
           data-goatcounter="https://ga-project.goatcounter.com/count"

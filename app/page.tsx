@@ -7,7 +7,7 @@ import { parseSchemaRb } from "@/lib/parse-schema-rb.mjs";
 import { lintSchema, summarize } from "@/lib/lint.mjs";
 import { toMermaid } from "@/lib/mermaid.mjs";
 import { SAMPLE_SCHEMA_RB } from "@/lib/sample.mjs";
-import { ruleAnchor } from "@/lib/rule-guide.mjs";
+import { RULE_GUIDES, ruleAnchor } from "@/lib/rule-guide.mjs";
 
 const SEVERITY_COLOR: Record<Severity, string> = {
   error: "#f87171",
@@ -19,6 +19,21 @@ const SEVERITY_LABEL: Record<Severity, string> = {
   error: "エラー",
   warning: "警告",
   info: "情報",
+};
+
+const RULE_TITLE = new Map(RULE_GUIDES.map((g) => [g.id, g.title]));
+
+// 解説は別タブで開く。入力はこの画面の state にしか無い（保存しない）ため、
+// 同じタブで遷移すると戻ったときに貼り直しになる。
+const GUIDE_LINK_PROPS = { target: "_blank", rel: "noopener" } as const;
+
+/** 当たり判定を上下に広げたリンクの見た目（文字位置は変えない）。 */
+const guideLinkStyle: React.CSSProperties = {
+  color: "#93c5fd",
+  textUnderlineOffset: 3,
+  display: "inline-block",
+  padding: "12px 0",
+  margin: "-12px 0",
 };
 
 function looksLikeSql(text: string): boolean {
@@ -78,11 +93,8 @@ export default function Home() {
           🔒 入力はサーバーに送信されません。すべてブラウザ内で処理します。
         </p>
         <p style={{ fontSize: "0.85rem", marginTop: 4 }}>
-          <Link
-            href="/rules/"
-            style={{ color: "#93c5fd", textUnderlineOffset: 3 }}
-          >
-            どんな問題を点検するか（lint ルールの解説）
+          <Link href="/rules/" style={guideLinkStyle} {...GUIDE_LINK_PROPS}>
+            どんな問題を点検するか（lint ルールの解説・新しいタブ）
           </Link>
         </p>
       </header>
@@ -200,7 +212,7 @@ export default function Home() {
           marginTop: 40,
           paddingTop: 16,
           borderTop: "1px solid #1e293b",
-          color: "#64748b",
+          color: "#94a3b8",
           fontSize: "0.8rem",
           lineHeight: 1.7,
         }}
@@ -281,17 +293,23 @@ function FindingRow({ finding }: { finding: Finding }) {
           {finding.columns.length > 0 ? `.${finding.columns.join(", ")}` : ""}
         </code>
         {finding.line !== null && (
-          <span style={{ color: "#64748b" }}> （行 {finding.line}）</span>
+          <span style={{ color: "#94a3b8" }}> （行 {finding.line}）</span>
         )}
         <div style={{ color: "#cbd5e1", marginTop: 2 }}>{finding.message}</div>
-        <div style={{ fontSize: "0.75rem", marginTop: 4 }}>
-          <Link
-            href={`/rules/#${ruleAnchor(finding.rule)}`}
-            style={{ color: "#93c5fd", textUnderlineOffset: 3 }}
-          >
-            なぜ問題か・直し方
-          </Link>
-          <span style={{ color: "#94a3b8" }}> — {finding.rule}</span>
+        <div style={{ fontSize: "0.85rem", marginTop: 4 }}>
+          {RULE_TITLE.has(finding.rule) && (
+            <>
+              <Link
+                href={`/rules/#${ruleAnchor(finding.rule)}`}
+                style={guideLinkStyle}
+                aria-label={`${RULE_TITLE.get(finding.rule)}: なぜ問題か・直し方（新しいタブ）`}
+                {...GUIDE_LINK_PROPS}
+              >
+                なぜ問題か・直し方 ↗
+              </Link>{" "}
+            </>
+          )}
+          <span style={{ color: "#94a3b8" }}>— {finding.rule}</span>
         </div>
       </span>
     </li>

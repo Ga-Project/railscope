@@ -43,7 +43,7 @@ const SEVERITY = {
 
 export default function RulesPage() {
   return (
-    <main style={{ maxWidth: 860, margin: "0 auto", padding: "2rem 1.25rem" }}>
+    <main style={{ maxWidth: 760, margin: "0 auto", padding: "2rem 1.25rem" }}>
       <nav
         aria-label="パンくず"
         style={{ fontSize: "0.85rem", marginBottom: 16 }}
@@ -74,9 +74,9 @@ export default function RulesPage() {
         <h2 id="toc-heading" style={{ fontSize: "1rem", margin: "0 0 8px" }}>
           目次
         </h2>
-        <ol style={{ margin: 0, paddingLeft: "1.4rem", lineHeight: 2 }}>
+        <ol style={{ margin: 0, paddingLeft: "1.4rem", lineHeight: 1.6 }}>
           {RULE_GUIDES.map((g) => (
-            <li key={g.id}>
+            <li key={g.id} style={{ marginBottom: 8 }}>
               <a href={`#${ruleAnchor(g.id)}`} style={linkStyle}>
                 {g.title}
               </a>{" "}
@@ -211,10 +211,10 @@ function SeverityBadge({ severity }: { severity: "warning" | "info" }) {
 }
 
 function Code({ label, children }: { label: string; children: string }) {
-  // 横に長いコードは枠内スクロールにし、キーボードでもスクロールできるよう tabIndex を付ける。
+  // 横スクロールさせず折り返す（スクロール領域にしないのでタブ停止を増やさない）。
   return (
     <pre
-      tabIndex={0}
+      role="region"
       aria-label={label}
       style={{
         margin: "0 0 4px",
@@ -222,7 +222,8 @@ function Code({ label, children }: { label: string; children: string }) {
         border: "1px solid #334155",
         borderRadius: 8,
         padding: 12,
-        overflowX: "auto",
+        whiteSpace: "pre-wrap",
+        overflowWrap: "anywhere",
         fontSize: "0.8rem",
         lineHeight: 1.6,
         fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",

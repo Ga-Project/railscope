@@ -17,6 +17,8 @@ export interface IndexDef {
   columns: string[];
   unique: boolean;
   name: string | null;
+  /** 列構成以外で索引の中身を変えるオプション（where/using/order 等）の正規化文字列。無ければ "" */
+  variant: string;
   line: number;
 }
 
