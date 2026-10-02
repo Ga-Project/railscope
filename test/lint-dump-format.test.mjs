@@ -97,3 +97,28 @@ add_foreign_key "accounts", "users"`;
   assert.ok(rules.includes("missing-fk-index"));
   assert.ok(!rules.includes("polymorphic-missing-composite-index"));
 });
+
+test("部分索引は外部キーの索引・一意性の根拠に数えない", () => {
+  const rules = lint(`create_table "comments", force: :cascade do |t|
+  t.bigint "post_id", null: false
+  t.timestamps
+  t.index ["post_id"], name: "a", where: "deleted_at IS NULL"
+end
+
+create_table "taggings", id: false, force: :cascade do |t|
+  t.bigint "post_id", null: false
+  t.index ["post_id"], name: "b", unique: true, where: "post_id > 0"
+end`).map((f) => `${f.rule}`);
+  assert.ok(rules.includes("missing-fk-index"));
+  assert.ok(rules.includes("no-primary-key"));
+});
+
+test("using: :btree は指定なしの索引と重複とみなす", () => {
+  const body = `create_table "posts", force: :cascade do |t|
+  t.bigint "user_id", null: false
+  t.timestamps
+  t.index ["user_id"], name: "a"
+  t.index ["user_id"], name: "b", using: :btree
+end`;
+  assert.ok(lint(body).some((f) => f.rule === "duplicate-index"));
+});
