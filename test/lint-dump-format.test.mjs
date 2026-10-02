@@ -67,3 +67,33 @@ end
 add_index "posts", ["account_id"], name: "b", where: "deleted_at IS NULL"`;
   assert.ok(lint(body).some((f) => f.rule === "duplicate-index"));
 });
+
+test("null: false の boolean と 0 以外の counter default は、それぞれの実害で説明する", () => {
+  const findings = lint(`create_table "posts", force: :cascade do |t|
+  t.boolean "published", null: false
+  t.integer "comments_count", default: 1, null: false
+  t.timestamps
+end`);
+  const msg = (rule) => findings.find((f) => f.rule === rule)?.message ?? "";
+  assert.match(msg("boolean-without-default"), /INSERT がエラー/);
+  assert.doesNotMatch(msg("boolean-without-default"), /3 値/);
+  assert.match(msg("counter-cache-without-default"), /実際の件数とずれ/);
+  assert.doesNotMatch(msg("counter-cache-without-default"), /NULL/);
+});
+
+test("*_id に add_foreign_key があれば *_type があっても polymorphic とみなさない", () => {
+  const body = `create_table "users", force: :cascade do |t|
+  t.timestamps
+end
+
+create_table "accounts", force: :cascade do |t|
+  t.string "user_type"
+  t.bigint "user_id", null: false
+  t.timestamps
+end
+
+add_foreign_key "accounts", "users"`;
+  const rules = lint(body).map((f) => f.rule);
+  assert.ok(rules.includes("missing-fk-index"));
+  assert.ok(!rules.includes("polymorphic-missing-composite-index"));
+});

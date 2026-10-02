@@ -115,13 +115,13 @@ export default function RulesPage() {
           </p>
 
           <h3 style={h3Style}>指摘される例（schema.rb）</h3>
-          <Code label={`${g.title}: 指摘される例`}>{g.bad}</Code>
+          <Code>{g.bad}</Code>
 
           <h3 style={h3Style}>直した後（schema.rb）</h3>
-          <Code label={`${g.title}: 直した後`}>{g.good}</Code>
+          <Code>{g.good}</Code>
 
           <h3 style={h3Style}>直すマイグレーションの例</h3>
-          <Code label={`${g.title}: マイグレーション例`}>{g.migration}</Code>
+          <Code>{g.migration}</Code>
 
           <h3 style={h3Style}>無視してよい場合</h3>
           <p style={bodyStyle}>
@@ -210,12 +210,10 @@ function SeverityBadge({ severity }: { severity: "warning" | "info" }) {
   );
 }
 
-function Code({ label, children }: { label: string; children: string }) {
+function Code({ children }: { children: string }) {
   // 横スクロールさせず折り返す（スクロール領域にしないのでタブ停止を増やさない）。
   return (
     <pre
-      role="region"
-      aria-label={label}
       style={{
         margin: "0 0 4px",
         background: "#1e293b",

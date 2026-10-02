@@ -93,8 +93,13 @@ export default function Home() {
           🔒 入力はサーバーに送信されません。すべてブラウザ内で処理します。
         </p>
         <p style={{ fontSize: "0.85rem", marginTop: 4 }}>
-          <Link href="/rules/" style={guideLinkStyle} {...GUIDE_LINK_PROPS}>
-            どんな問題を点検するか（lint ルールの解説・新しいタブ）
+          <Link
+            href="/rules/"
+            style={guideLinkStyle}
+            aria-label="どんな問題を点検するか（lint ルールの解説・新しいタブ）"
+            {...GUIDE_LINK_PROPS}
+          >
+            どんな問題を点検するか（lint ルールの解説） ↗
           </Link>
         </p>
       </header>
@@ -296,7 +301,8 @@ function FindingRow({ finding }: { finding: Finding }) {
           <span style={{ color: "#94a3b8" }}> （行 {finding.line}）</span>
         )}
         <div style={{ color: "#cbd5e1", marginTop: 2 }}>{finding.message}</div>
-        <div style={{ fontSize: "0.85rem", marginTop: 4 }}>
+        {/* 上の説明文に広げた当たり判定（padding 12px）が重ならないよう 12px 空ける */}
+        <div style={{ fontSize: "0.85rem", marginTop: 12 }}>
           {RULE_TITLE.has(finding.rule) && (
             <>
               <Link
@@ -307,9 +313,10 @@ function FindingRow({ finding }: { finding: Finding }) {
               >
                 なぜ問題か・直し方 ↗
               </Link>{" "}
+              <span style={{ color: "#94a3b8" }}>— </span>
             </>
           )}
-          <span style={{ color: "#94a3b8" }}>— {finding.rule}</span>
+          <span style={{ color: "#94a3b8" }}>{finding.rule}</span>
         </div>
       </span>
     </li>

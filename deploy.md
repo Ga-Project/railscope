@@ -100,10 +100,13 @@ const nextConfig = {
 
 Cloudflare Pages でも `out/` をそのまま配信できる。
 
+ルート配信になるので `BASE_PATH` は付けず、実際の公開URLを `SITE_URL` に渡す（canonical・OGP・sitemap.xml がこの URL を指す。未指定だと GitHub Pages の URL になり、検索エンジンに別ホストを案内してしまう）。
+
 ```bash
-pnpm build
+SITE_URL=https://<your-project>.pages.dev/ pnpm build
 # Cloudflare ダッシュボードの Pages から「Direct Upload」で out/ をアップロード、
-# もしくは GitHub 連携でリポジトリを指定し、ビルドコマンド `pnpm build`・出力ディレクトリ `out` を設定する。
+# もしくは GitHub 連携でリポジトリを指定し、ビルドコマンド `pnpm build`・出力ディレクトリ `out`・
+# 環境変数 SITE_URL を設定する。
 ```
 
 Wrangler を使う場合:
